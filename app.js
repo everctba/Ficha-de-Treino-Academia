@@ -1,31 +1,5 @@
 // State Management
-const STATE_KEY = 'graci_treino_data';
-
-let treinoData = {
-    aluno: '',
-    objetivo: '',
-    treinos: [], // { id, titulo, foco, exercicios: [{ id, nome, series }] }
-    recomendacoes: ''
-};
-
-// Initial Data/Load
-function loadState() {
-    const saved = localStorage.getItem(STATE_KEY);
-    if (saved) {
-        treinoData = JSON.parse(saved);
-    } else {
-        // Default init if empty
-        treinoData.treinos = [
-            createTreino('TREINO A', 'Geral'),
-            createTreino('TREINO B', 'Geral')
-        ];
-    }
-    renderEditor();
-}
-
-function saveState() {
-    localStorage.setItem(STATE_KEY, JSON.stringify(treinoData));
-}
+const STATE_KEY = 'graci_treino_data_v2';
 
 // Helper for IDs
 function generateUUID() {
@@ -38,8 +12,28 @@ function generateUUID() {
     });
 }
 
-// Factories
-function createTreino(titulo = 'Novo Treino', foco = '') {
+let treinoData = {
+    aluno: '',
+    objetivo: '',
+    treinos: [],
+    recomendacoes: ''
+};
+
+function loadState() {
+    const saved = localStorage.getItem(STATE_KEY);
+    if (saved) {
+        treinoData = JSON.parse(saved);
+    } else {
+        treinoData.treinos = [createTreino('TREINO A', 'GERAL I')];
+    }
+    renderEditor();
+}
+
+function saveState() {
+    localStorage.setItem(STATE_KEY, JSON.stringify(treinoData));
+}
+
+function createTreino(titulo = 'TREINO', foco = '') {
     return {
         id: generateUUID(),
         titulo,
@@ -52,132 +46,193 @@ function createExercicio() {
     return {
         id: generateUUID(),
         nome: '',
-        series: ''
+        series: '3',
+        reps: '12',
+        carga: ''
     };
 }
 
-// Render Functions
+// Render Editor (App UI)
 function renderEditor() {
-    // Inputs Globais
-    const nomeInput = document.getElementById('aluno-nome');
-    const objetivoInput = document.getElementById('treino-titulo');
-    const recsInput = document.getElementById('recomendacoes');
+    const n = document.getElementById('aluno-nome');
+    const o = document.getElementById('treino-titulo');
+    const r = document.getElementById('recomendacoes');
 
-    // Avoid overwriting focus if typing, but safe to set on full re-render
-    if (document.activeElement !== nomeInput) nomeInput.value = treinoData.aluno;
-    if (document.activeElement !== objetivoInput) objetivoInput.value = treinoData.objetivo;
-    if (document.activeElement !== recsInput) recsInput.value = treinoData.recomendacoes;
+    if (document.activeElement !== n) n.value = treinoData.aluno;
+    if (document.activeElement !== o) o.value = treinoData.objetivo;
+    if (document.activeElement !== r) r.value = treinoData.recomendacoes;
 
-    // Workouts List
-    const container = document.getElementById('workouts-list');
-    container.innerHTML = '';
+    const listContainer = document.getElementById('workouts-list');
+    listContainer.innerHTML = '';
 
-    treinoData.treinos.forEach((treino, tIndex) => {
-        const tEl = document.createElement('div');
-        tEl.className = 'card workout-item';
-        tEl.innerHTML = `
-            <div class="workout-header">
-                <div style="flex:1; display:flex; gap:8px;">
-                     <input type="text" class="input-treino-titulo" data-tid="${treino.id}" value="${treino.titulo}" placeholder="Título (Ex: TREINO A)">
-                     <input type="text" class="input-treino-foco" data-tid="${treino.id}" value="${treino.foco}" placeholder="Foco (Ex: Pernas)">
+    treinoData.treinos.forEach((treino, idx) => {
+        const tDiv = document.createElement('div');
+        tDiv.innerHTML = `
+            <div class="mt-8">
+                <div class="flex items-end justify-between border-b border-white/10 pb-4 mb-6">
+                    <div class="flex-1 mr-4">
+                        <input type="text" 
+                            class="bg-transparent text-2xl text-white font-display italic font-bold w-full focus:outline-none focus:border-gra-gold border-b border-transparent placeholder-white/30"
+                            value="${treino.titulo}" 
+                            data-tid="${treino.id}"
+                            onchange="updateTreinoHeader(this, 'titulo')"
+                            placeholder="Nome do Treino (Ex: TREINO A)"
+                        >
+                        <input type="text"
+                             class="bg-transparent text-sm text-gra-gold uppercase tracking-widest font-medium w-full mt-1 focus:outline-none"
+                             value="${treino.foco}"
+                             data-tid="${treino.id}"
+                             onchange="updateTreinoHeader(this, 'foco')"
+                             placeholder="Foco (Ex: Perna)"
+                        >
+                    </div>
+                     <button class="text-gra-text-muted hover:text-red-500 transition-colors p-2" onclick="removeTreino('${treino.id}')" title="Excluir Treino">
+                        <span class="material-symbols-outlined">delete</span>
+                    </button>
                 </div>
-                <button class="btn-danger-text" onclick="removeTreino('${treino.id}')">
-                    <i class="fa-solid fa-trash"></i>
+
+                <div class="space-y-5" id="ex-list-${treino.id}"></div>
+
+                <button onclick="addExercicio('${treino.id}')" class="mt-4 group relative flex w-full items-center justify-center gap-2 rounded-lg border border-dashed border-white/20 bg-white/5 py-3 text-gra-text-muted transition-all hover:border-gra-gold hover:bg-gra-gold/10 hover:text-white">
+                    <span class="material-symbols-outlined text-gra-gold text-lg">add_circle</span>
+                    <span class="font-bold uppercase tracking-widest text-[10px]">Add Exercício</span>
                 </button>
             </div>
-            <div class="exercise-list" id="list-${treino.id}">
-                <!-- Exercicios go here -->
-            </div>
-            <button class="btn btn-outline full-width" style="margin-top:10px; font-size:0.8rem;" onclick="addExercicio('${treino.id}')">
-                <i class="fa-solid fa-plus"></i> Add Exercício
-            </button>
         `;
+        listContainer.appendChild(tDiv);
 
-        container.appendChild(tEl);
-
-        const exList = document.getElementById(`list-${treino.id}`);
-        treino.exercicios.forEach((ex, eIndex) => {
-            const row = document.createElement('div');
-            row.className = 'exercise-row';
-            row.innerHTML = `
-                <input type="text" name="ex-nome" value="${ex.nome}" placeholder="Nome do Exercício" oninput="updateExercicio('${treino.id}', '${ex.id}', 'nome', this.value)">
-                <input type="text" name="ex-series" value="${ex.series}" placeholder="Séries/Reps" oninput="updateExercicio('${treino.id}', '${ex.id}', 'series', this.value)">
-                <div class="handle-remove" onclick="removeExercicio('${treino.id}', '${ex.id}')">
-                    <i class="fa-solid fa-times"></i>
+        const exContainer = document.getElementById(`ex-list-${treino.id}`);
+        treino.exercicios.forEach((ex, i) => {
+            const exDiv = document.createElement('div');
+            exDiv.className = "relative bg-gra-dark-gray/50 rounded-lg border border-white/5 overflow-hidden transition-all duration-300 hover:border-gra-gold/30 hover:shadow-[0_0_20px_rgba(197,169,111,0.05)]";
+            exDiv.innerHTML = `
+                <div class="bg-gradient-to-r from-gra-gray to-gra-dark-gray px-4 py-3 flex justify-between items-center border-b border-white/5">
+                    <span class="text-gra-gold font-display font-bold text-sm italic tracking-wide">${String(i + 1).padStart(2, '0')}</span>
+                    <button class="text-gra-text-muted hover:text-red-400 transition-colors text-xs" onclick="removeExercicio('${treino.id}', '${ex.id}')">
+                        <span class="material-symbols-outlined text-base">close</span>
+                    </button>
+                </div>
+                <div class="p-4 space-y-3">
+                    <div class="space-y-1">
+                        <label class="text-[9px] font-bold uppercase tracking-widest text-gra-text-muted">Movimento</label>
+                        <input type="text"
+                            class="w-full bg-gra-black border border-white/10 rounded-md text-white py-2 px-3 focus:border-gra-gold focus:outline-none transition-colors text-sm"
+                            value="${ex.nome}"
+                            placeholder="Nome do exercício..."
+                            oninput="updateExercicio('${treino.id}', '${ex.id}', 'nome', this.value)"
+                        >
+                    </div>
+                    <div class="grid grid-cols-3 gap-2">
+                        <div class="bg-black/40 p-2 rounded border border-white/5 text-center">
+                            <label class="block text-[8px] font-bold uppercase text-gra-gold mb-1 tracking-wider">Séries</label>
+                            <input class="w-full bg-transparent text-center text-sm font-bold text-white p-0 border-none focus:ring-0" type="text" value="${ex.series}" oninput="updateExercicio('${treino.id}', '${ex.id}', 'series', this.value)">
+                        </div>
+                        <div class="bg-black/40 p-2 rounded border border-white/5 text-center">
+                            <label class="block text-[8px] font-bold uppercase text-gra-gold mb-1 tracking-wider">Reps</label>
+                            <input class="w-full bg-transparent text-center text-sm font-bold text-white p-0 border-none focus:ring-0" type="text" value="${ex.reps}" oninput="updateExercicio('${treino.id}', '${ex.id}', 'reps', this.value)">
+                        </div>
+                         <div class="bg-black/40 p-2 rounded border border-white/5 text-center">
+                            <label class="block text-[8px] font-bold uppercase text-gra-gold mb-1 tracking-wider">Carga</label>
+                            <input class="w-full bg-transparent text-center text-sm font-bold text-white p-0 border-none focus:ring-0" type="text" value="${ex.carga || ''}" placeholder="-" oninput="updateExercicio('${treino.id}', '${ex.id}', 'carga', this.value)">
+                        </div>
+                    </div>
                 </div>
             `;
-            exList.appendChild(row);
+            exContainer.appendChild(exDiv);
         });
     });
 
-    // Bind Global Inputs Events
-    nomeInput.oninput = (e) => { treinoData.aluno = e.target.value; saveState(); };
-    objetivoInput.oninput = (e) => { treinoData.objetivo = e.target.value; saveState(); };
-    recsInput.oninput = (e) => { treinoData.recomendacoes = e.target.value; saveState(); };
-
-    // Bind Treinos Inputs Events
-    document.querySelectorAll('.input-treino-titulo').forEach(inp => {
-        inp.oninput = (e) => {
-            const t = treinoData.treinos.find(x => x.id === e.target.dataset.tid);
-            if (t) { t.titulo = e.target.value; saveState(); }
-        };
-    });
-    document.querySelectorAll('.input-treino-foco').forEach(inp => {
-        inp.oninput = (e) => {
-            const t = treinoData.treinos.find(x => x.id === e.target.dataset.tid);
-            if (t) { t.foco = e.target.value; saveState(); }
-        };
-    });
+    n.oninput = (e) => { treinoData.aluno = e.target.value; saveState(); };
+    o.oninput = (e) => { treinoData.objetivo = e.target.value; saveState(); };
+    r.oninput = (e) => { treinoData.recomendacoes = e.target.value; saveState(); };
 }
 
-// Logic Actions
+window.updateTreinoHeader = (el, field) => {
+    const tid = el.getAttribute('data-tid');
+    const t = treinoData.treinos.find(x => x.id === tid);
+    if (t) { t[field] = el.value; saveState(); }
+};
+
 window.addTreino = () => {
-    treinoData.treinos.push(createTreino(`TREINO ${String.fromCharCode(65 + treinoData.treinos.length)}`, ''));
+    treinoData.treinos.push(createTreino());
     saveState();
     renderEditor();
 };
 
 window.removeTreino = (id) => {
-    if (!confirm("Remover este treino inteiro?")) return;
+    if (!confirm("Tem certeza que deseja remover este treino?")) return;
     treinoData.treinos = treinoData.treinos.filter(t => t.id !== id);
     saveState();
     renderEditor();
 };
 
-window.addExercicio = (treinoId) => {
-    const t = treinoData.treinos.find(x => x.id === treinoId);
+window.addExercicio = (tid) => {
+    const t = treinoData.treinos.find(x => x.id === tid);
+    if (t) { t.exercicios.push(createExercicio()); saveState(); renderEditor(); }
+};
+
+window.removeExercicio = (tid, eid) => {
+    const t = treinoData.treinos.find(x => x.id === tid);
+    if (t) { t.exercicios = t.exercicios.filter(e => e.id !== eid); saveState(); renderEditor(); }
+};
+
+window.updateExercicio = (tid, eid, field, val) => {
+    const t = treinoData.treinos.find(x => x.id === tid);
     if (t) {
-        t.exercicios.push(createExercicio());
-        saveState();
-        renderEditor();
+        const ex = t.exercicios.find(e => e.id === eid);
+        if (ex) { ex[field] = val; saveState(); }
     }
 };
 
-window.removeExercicio = (treinoId, exId) => {
-    const t = treinoData.treinos.find(x => x.id === treinoId);
-    if (t) {
-        t.exercicios = t.exercicios.filter(e => e.id !== exId);
-        saveState();
-        renderEditor();
-    }
-};
+// DIGITAL PDF GENERATION (Single Page, Custom Height)
+document.getElementById('btn-generate-pdf').addEventListener('click', async () => {
+    // 1. Render data to hidden container
+    renderPDFTemplate();
 
-window.updateExercicio = (treinoId, exId, field, val) => {
-    const t = treinoData.treinos.find(x => x.id === treinoId);
-    if (t) {
-        const ex = t.exercicios.find(e => e.id === exId);
-        if (ex) {
-            ex[field] = val;
-            saveState(); // Warning: heavily triggered on input, maybe debounce in production but ok for now
+    // 2. Prepare container visibility
+    const wrapper = document.getElementById('export-container-wrapper');
+    const content = document.getElementById('pdf-content');
+
+    // Expand wrapper to fit content height exactly
+    wrapper.style.height = 'auto';
+    wrapper.style.width = '600px';
+
+    // Wait for render/layout
+    await new Promise(r => setTimeout(r, 100));
+
+    // 3. Measure Header Height
+    const totalHeight = content.scrollHeight;
+    const totalWidth = 600;
+
+    // 4. Configure PDF to match content EXACTLY (Single Page)
+    const opt = {
+        margin: 0,
+        filename: `Ficha-${(treinoData.aluno || 'Treino').replace(/\s+/g, '_')}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: {
+            scale: 2,
+            useCORS: true,
+            windowWidth: totalWidth,
+            height: totalHeight,
+            scrollY: 0
+        },
+        jsPDF: {
+            unit: 'px',
+            format: [totalWidth, totalHeight], // Custom Single Page Format
+            orientation: 'portrait'
         }
-    }
-};
+    };
 
-// PDF Generation
+    // 5. Save
+    html2pdf().set(opt).from(content).save().then(() => {
+        wrapper.style.height = '0'; // Hide again
+    });
+});
+
 function renderPDFTemplate() {
     document.getElementById('pdf-title').innerText = "FICHA DE TREINO";
-    document.getElementById('pdf-aluno').innerText = treinoData.aluno || "ALUNO(A)";
-    document.getElementById('pdf-objetivo').innerText = treinoData.objetivo || "TREINAMENTO PERSONZALIZADO";
+    document.getElementById('pdf-aluno').innerText = (treinoData.aluno || "NOME DO ALUNO");
+    document.getElementById('pdf-objetivo').innerText = (treinoData.objetivo || "TREINAMENTO PERSONALIZADO");
 
     const body = document.getElementById('pdf-body');
     body.innerHTML = '';
@@ -186,34 +241,33 @@ function renderPDFTemplate() {
         const block = document.createElement('div');
         block.className = 'pdf-workout-block';
 
-        let htmlBuffer = `
-            <div>
+        let headerHtml = `
+            <div class="pdf-workout-header-row">
                 <span class="pdf-workout-title">${t.titulo || 'TREINO'}</span>
                 <span class="pdf-workout-focus">${t.foco}</span>
             </div>
-            <ul class="pdf-exercise-list">
+            <div class="pdf-exercise-list">
         `;
 
+        let rowsHtml = '';
         t.exercicios.forEach(ex => {
-            if (ex.nome) { // Only print if has name
-                htmlBuffer += `
-                    <li class="pdf-exercise-item">
+            if (ex.nome) {
+                const infoCompl = `${ex.series}X${ex.reps}`;
+                rowsHtml += `
+                    <div class="pdf-exercise-item">
                         <span class="pdf-ex-name">${ex.nome}</span>
-                        <span class="pdf-ex-series">${ex.series}</span>
-                    </li>
+                        <span class="pdf-ex-series">${infoCompl}</span>
+                    </div>
                 `;
             }
         });
 
-        htmlBuffer += `</ul>`;
-        block.innerHTML = htmlBuffer;
+        block.innerHTML = headerHtml + rowsHtml + '</div>';
         body.appendChild(block);
     });
 
-    // Recommendations
     const recDiv = document.getElementById('pdf-recs');
     if (treinoData.recomendacoes) {
-        recDiv.className = 'pdf-recs-text';
         recDiv.innerText = treinoData.recomendacoes;
         document.querySelector('.pdf-footer').style.display = 'block';
     } else {
@@ -222,25 +276,4 @@ function renderPDFTemplate() {
     }
 }
 
-document.getElementById('btn-add-workout').addEventListener('click', window.addTreino);
-
-document.getElementById('btn-generate-pdf').addEventListener('click', () => {
-    // 1. Render data to hidden container
-    renderPDFTemplate();
-
-    // 2. Options for html2pdf
-    const element = document.getElementById('pdf-content');
-    const opt = {
-        margin: [10, 10, 10, 10], // mm
-        filename: `Ficha_${treinoData.aluno || 'Treino'}.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true }, // Higher scale for better definition
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    };
-
-    // 3. Generate
-    html2pdf().set(opt).from(element).save();
-});
-
-// Start
 loadState();

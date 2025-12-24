@@ -1,103 +1,246 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html class="dark" lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerador de Ficha de Treino - Graciele Personal</title>
-    
-    <!-- Fonts: Outfit (Moderno/Premium) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Ficha de Treino - Graciele Personal Trainer</title>
 
-    <!-- Styles -->
-    <link rel="stylesheet" href="style.css">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&amp;family=Playfair+Display:ital,wght@0,400;0,700;1,400&amp;family=Roboto+Condensed:wght@300;400;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
 
-    <!-- Libraries -->
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "gra-gold": "#C5A96F",
+                        "gra-gold-light": "#E3C98D",
+                        "gra-gold-dark": "#9E844F",
+                        "gra-black": "#0A0A0A",
+                        "gra-dark-gray": "#161616",
+                        "gra-gray": "#2A2A2A",
+                        "gra-text-white": "#F5F5F5",
+                        "gra-text-muted": "#A0A0A0",
+                    },
+                    fontFamily: {
+                        "display": ["Playfair Display", "serif"],
+                        "body": ["Montserrat", "sans-serif"],
+                        "condensed": ["Roboto Condensed", "sans-serif"],
+                    },
+                    backgroundImage: {
+                        'gold-gradient': 'linear-gradient(135deg, #C5A96F 0%, #E3C98D 50%, #9E844F 100%)',
+                    }
+                },
+            },
+        }
+    </script>
+
+    <!-- Custom Style extensions (Scrollbar, Input Override) -->
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #050505;
+        }
+
+        h1,
+        h2,
+        h3,
+        .heading-font {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .form-input-custom {
+            transition: all 0.3s ease;
+            border-radius: 4px;
+            border: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .form-input-custom:focus {
+            border-bottom-color: #C5A96F;
+            box-shadow: none;
+            outline: none;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0A0A0A;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #C5A96F;
+        }
+
+        .text-shadow-gold {
+            text-shadow: 0px 2px 4px rgba(197, 169, 111, 0.2);
+        }
+    </style>
+
+    <link rel="stylesheet" href="style.css"> <!-- PDF styles loaded here -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
-<body>
 
-    <!-- App Container -->
-    <div id="app">
-        
-        <!-- Header -->
-        <header class="app-header">
-            <div class="logo-area">
-                <h1>Gerador de Fichas</h1>
-                <p>Graciele Personal Trainer</p>
+<body class="bg-gra-black text-gra-text-white min-h-screen flex flex-col selection:bg-gra-gold selection:text-black">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-50 w-full border-b border-white/10 bg-gra-black/90 backdrop-blur-md">
+        <div class="mx-auto flex h-20 max-w-md items-center justify-between px-6">
+            <div class="flex items-center gap-3">
+                <div
+                    class="relative flex h-10 w-10 items-center justify-center rounded-full border border-gra-gold text-gra-gold">
+                    <span class="font-display text-2xl font-bold italic pt-1">G</span>
+                </div>
+                <div class="flex flex-col">
+                    <h1 class="text-lg font-bold leading-none text-white font-display italic tracking-wide">GRACIELE
+                    </h1>
+                    <span class="text-[10px] uppercase tracking-[0.2em] text-gra-gold font-medium">Personal
+                        Trainer</span>
+                </div>
             </div>
-        </header>
+        </div>
+    </header>
 
-        <!-- Editor Section (Visible) -->
-        <main id="editor-container">
-            
+    <main class="flex-1 px-4 py-8 sm:px-6 relative overflow-hidden" id="app">
+        <!-- Decoration BG -->
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+            <div class="absolute top-[-10%] right-[-10%] w-[300px] h-[300px] bg-gra-gold/5 rounded-full blur-[80px]">
+            </div>
+        </div>
+
+        <div class="mx-auto max-w-md space-y-8 relative z-10">
+
+            <!-- Intro / Title -->
+            <div class="text-center space-y-2 pb-2">
+                <h2 class="text-4xl text-white font-display italic font-bold text-shadow-gold">Sua Jornada</h2>
+                <div class="flex items-center justify-center gap-3">
+                    <div class="h-[1px] w-8 bg-gradient-to-r from-transparent to-gra-gold"></div>
+                    <p class="text-gra-gold text-xs uppercase tracking-[0.25em] font-medium">Ficha de Treino</p>
+                    <div class="h-[1px] w-8 bg-gradient-to-l from-transparent to-gra-gold"></div>
+                </div>
+            </div>
+
             <!-- Global Info Card -->
-            <section class="card editor-card">
-                <h2><i class="fa-solid fa-user"></i> Aluno & Objetivo</h2>
-                <div class="input-group">
-                    <label>Nome do Aluno</label>
-                    <input type="text" id="aluno-nome" placeholder="Ex: Thais Zampieri">
+            <div
+                class="bg-gra-dark-gray/80 backdrop-blur-sm rounded-xl border border-white/5 p-6 shadow-xl relative overflow-hidden group">
+                <div
+                    class="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-gra-gold via-gra-gold-light to-gra-gold-dark">
                 </div>
-                <div class="input-group">
-                    <label>Subtítulo / Objetivo</label>
-                    <input type="text" id="treino-titulo" placeholder="Ex: Treinamento Exclusivo">
+                <div class="space-y-6">
+                    <div class="space-y-2">
+                        <label
+                            class="text-[10px] font-bold uppercase tracking-widest text-gra-gold flex items-center gap-2">
+                            <span class="material-symbols-outlined text-sm">person</span> ALUNO(A)
+                        </label>
+                        <input id="aluno-nome"
+                            class="form-input-custom w-full bg-transparent py-2 px-0 text-base text-white placeholder-white/20 font-light"
+                            type="text" placeholder="Nome completo">
+                    </div>
+                    <div class="space-y-2">
+                        <label
+                            class="text-[10px] font-bold uppercase tracking-widest text-gra-gold flex items-center gap-2">
+                            <span class="material-symbols-outlined text-sm">fitness_center</span> OBJETIVO / TÍTULO
+                        </label>
+                        <input id="treino-titulo"
+                            class="form-input-custom w-full bg-transparent py-2 px-0 text-xl font-display italic text-white placeholder-white/20"
+                            type="text" placeholder="Ex: Hipertrofia">
+                    </div>
                 </div>
-            </section>
+            </div>
 
             <!-- Dynamic Workouts Container -->
-            <div id="workouts-list">
-                <!-- Treinos will be rendered here by JS -->
+            <div id="workouts-list" class="space-y-8">
+                <!-- Javascript will render cards here -->
             </div>
 
             <!-- Add Workout Button -->
-            <button id="btn-add-workout" class="btn btn-outline full-width">
-                <i class="fa-solid fa-plus"></i> Adicionar Treino
+            <button onclick="addTreino()"
+                class="group relative flex w-full items-center justify-center gap-2 rounded-lg border border-dashed border-white/20 bg-white/5 py-4 text-gra-text-muted transition-all hover:border-gra-gold hover:bg-gra-gold/10 hover:text-white">
+                <span
+                    class="material-symbols-outlined text-gra-gold group-hover:scale-110 transition-transform">add_circle</span>
+                <span class="font-bold uppercase tracking-widest text-xs">Adicionar Treino (A, B...)</span>
             </button>
 
             <!-- Recommendations -->
-            <section class="card editor-card">
-                <h2><i class="fa-solid fa-list-check"></i> Recomendações</h2>
-                <textarea id="recomendacoes" rows="4" placeholder="Digite as recomendações gerais aqui..."></textarea>
-            </section>
+            <div class="space-y-4 pt-4">
+                <h3 class="text-xl text-white font-display italic font-bold flex items-center gap-3">
+                    <span class="w-8 h-[1px] bg-gra-gold"></span> Observações
+                </h3>
+                <div class="relative bg-gra-dark-gray/50 rounded-xl border border-white/10 p-1">
+                    <textarea id="recomendacoes"
+                        class="w-full bg-transparent text-white placeholder-gra-text-muted/40 p-4 focus:outline-none resize-none border-none text-sm font-light leading-relaxed"
+                        placeholder="Recomendações finais..." rows="3"></textarea>
+                    <div class="absolute bottom-2 right-2 text-gra-gold/50">
+                        <span class="material-symbols-outlined text-sm">edit_note</span>
+                    </div>
+                </div>
+            </div>
 
-            <!-- Actions -->
-            <div class="submit-area">
-                <button id="btn-generate-pdf" class="btn btn-primary btn-lg full-width">
-                    <i class="fa-solid fa-file-pdf"></i> Gerar PDF
+            <!-- Generate PDF Button -->
+            <div class="sticky bottom-6 z-40 mt-8">
+                <button id="btn-generate-pdf"
+                    class="relative w-full overflow-hidden rounded-full bg-gradient-to-r from-gra-gold-dark via-gra-gold to-gra-gold-dark py-4 text-sm font-bold text-black uppercase tracking-widest shadow-lg shadow-gra-gold/20 transition-transform active:scale-[0.98] hover:shadow-gra-gold/40">
+                    <span class="relative z-10 flex items-center justify-center gap-2">
+                        <span class="material-symbols-outlined">download</span>
+                        Gerar PDF
+                    </span>
+                    <div
+                        class="absolute inset-0 bg-white/20 opacity-0 hover:opacity-100 transition-opacity duration-300">
+                    </div>
                 </button>
             </div>
 
-        </main>
-    </div>
+        </div>
+    </main>
 
-    <!-- Hidden Export Container (Off-screen) -->
-    <!-- This is what gets printed to PDF -->
-    <div id="export-container-wrapper" style="position: fixed; left: -9999px; top: 0;">
+    <!-- Hidden PDF Container (Dark Theme) -->
+    <!-- z-index -50 puts it behind body, but visible to canvas. 
+         Fixed position ensures it doesn't mess up document flow. -->
+    <div id="export-container-wrapper"
+        style="position: absolute; top: 0; left: 0; z-index: -50; width: 800px; overflow: hidden; height: 0;">
         <div id="pdf-content">
-            <!-- Header PDF -->
-            <div class="pdf-header">
-                <h1 id="pdf-title">FICHA DE TREINO</h1>
-                <h2 id="pdf-aluno">NOME DO ALUNO</h2>
-                <h3 id="pdf-objetivo">OBJETIVO</h3>
+            <div class="pdf-inner-content">
+                <!-- Header PDF -->
+                <div class="pdf-header">
+                    <span class="pdf-header-logo-text">Personal Trainer</span>
+                    <h1 id="pdf-title">FICHA DE TREINO</h1>
+                    <h2 id="pdf-aluno">NOME DO ALUNO</h2>
+                    <h3 id="pdf-objetivo">OBJETIVO</h3>
+                </div>
+                <!-- Content -->
+                <div id="pdf-body"></div>
+                <!-- Footer -->
+                <div class="pdf-footer">
+                    <h4>RECOMENDAÇÕES:</h4>
+                    <div id="pdf-recs" class="pdf-recs-text"></div>
+                </div>
+                <div class="pdf-watermark-bottom">
+                    Whatever It Takes
+                </div>
             </div>
-
-            <!-- Content PDF -->
-            <div id="pdf-body">
-                <!-- Rendered clean HTML goes here -->
-            </div>
-
-            <!-- Footer PDF -->
-             <div class="pdf-footer">
-                <h4>RECOMENDAÇÕES:</h4>
-                <div id="pdf-recs"></div>
-             </div>
         </div>
     </div>
 
     <script src="app.js"></script>
 </body>
+
 </html>
