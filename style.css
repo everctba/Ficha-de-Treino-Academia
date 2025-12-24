@@ -3,18 +3,19 @@
     --bg-page: #121212;
     --bg-card: #1E1E1E;
     --bg-input: #2C2C2C;
-    --primary: #D4AF37; /* Gold */
+    --primary: #D4AF37;
+    /* Gold */
     --primary-hover: #B5952F;
     --text-main: #F5F5F5;
     --text-muted: #A0A0A0;
     --danger: #FF6B6B;
     --border: #333333;
-    
+
     /* Spacing */
     --gap-sm: 8px;
     --gap-md: 16px;
     --gap-lg: 24px;
-    
+
     /* PDF Palette */
     --pdf-bg: #FFFFFF;
     --pdf-text: #000000;
@@ -38,7 +39,8 @@ body {
 
 #app {
     width: 100%;
-    max-width: 600px; /* Mobile focused max-width */
+    max-width: 600px;
+    /* Mobile focused max-width */
     padding: var(--gap-md);
     padding-bottom: 80px;
 }
@@ -70,7 +72,7 @@ body {
     padding: var(--gap-md);
     margin-bottom: var(--gap-md);
     border: 1px solid var(--border);
-    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
 .card h2 {
@@ -100,7 +102,9 @@ body {
     font-weight: 600;
 }
 
-input, textarea, select {
+input,
+textarea,
+select {
     width: 100%;
     background-color: var(--bg-input);
     border: 1px solid var(--border);
@@ -111,7 +115,8 @@ input, textarea, select {
     transition: 0.2s;
 }
 
-input:focus, textarea:focus {
+input:focus,
+textarea:focus {
     outline: none;
     border-color: var(--primary);
     box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
@@ -179,7 +184,7 @@ textarea {
 
 /* Dynamic List Styles */
 .workout-item {
-    background-color: rgba(255,255,255,0.03);
+    background-color: rgba(255, 255, 255, 0.03);
     border-radius: 8px;
     padding: var(--gap-md);
     margin-bottom: var(--gap-md);
@@ -219,80 +224,97 @@ textarea {
 #pdf-content {
     background-color: var(--pdf-bg);
     color: var(--pdf-text);
-    width: 100%;
-    /* Standard A4 aspect approximation or mobile fit usually handled by html2pdf */
-    padding: 40px; 
+    /* FORCE DESKTOP WIDTH for A4 PDF generation */
+    /* 794px is approx A4 width at 96dpi. This ensures it doesn't look like a mobile screenshot. */
+    width: 800px;
+    min-height: 1100px;
+    padding: 40px 60px;
     font-family: 'Outfit', sans-serif;
+    position: relative;
 }
 
 /* Custom Typography for PDF */
 .pdf-header {
     text-align: center;
-    border-bottom: 2px solid #000;
+    border-bottom: 3px solid #000;
     padding-bottom: 20px;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
 }
 
 .pdf-header h1 {
-    font-size: 24px;
+    font-size: 32px;
     font-weight: 800;
-    letter-spacing: 2px;
+    letter-spacing: 4px;
     margin-bottom: 10px;
     color: #000;
-}
-
-.pdf-header h2 {
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 5px;
     text-transform: uppercase;
 }
 
+.pdf-header h2 {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    color: #333;
+}
+
 .pdf-header h3 {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 400;
-    color: #444;
+    color: #666;
+    letter-spacing: 2px;
     text-transform: uppercase;
 }
 
 .pdf-workout-block {
-    margin-bottom: 30px;
+    margin-bottom: 40px;
     page-break-inside: avoid;
+    border: 1px solid #eee;
+    /* Visual Box */
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.pdf-workout-header-row {
+    background-color: #000;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .pdf-workout-title {
-    background-color: #000;
-    color: #fff;
-    padding: 8px 12px;
-    font-weight: 700;
+    font-weight: 800;
     text-transform: uppercase;
-    font-size: 16px;
-    border-radius: 4px;
-    display: inline-block;
-    margin-bottom: 15px;
+    font-size: 18px;
 }
 
 .pdf-workout-focus {
-    display: inline-block;
-    margin-left: 10px;
-    font-size: 14px;
+    font-size: 16px;
     text-transform: uppercase;
-    font-weight: 600;
-    color: #444;
+    font-weight: 400;
+    opacity: 0.9;
 }
 
 .pdf-exercise-list {
     list-style: none;
-    padding-left: 5px;
+    padding: 0;
+    margin: 0;
 }
 
 .pdf-exercise-item {
-    padding: 6px 0;
-    border-bottom: 1px dotted #ccc;
+    padding: 12px 20px;
+    border-bottom: 1px solid #e0e0e0;
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
-    font-size: 14px;
+    align-items: center;
+    font-size: 16px;
+    background-color: #fafafa;
+}
+
+.pdf-exercise-item:nth-child(even) {
+    background-color: #fff;
 }
 
 .pdf-exercise-item:last-child {
@@ -300,32 +322,40 @@ textarea {
 }
 
 .pdf-ex-name {
-    font-weight: 600;
+    font-weight: 700;
+    color: #000;
     text-transform: uppercase;
-    max-width: 70%;
+    flex: 2;
 }
 
 .pdf-ex-series {
-    font-weight: 400;
-    color: #333;
+    font-weight: 500;
+    color: #444;
     text-align: right;
+    flex: 1;
 }
 
 .pdf-footer {
-    margin-top: 40px;
-    border-top: 2px solid #000;
+    margin-top: 50px;
+    border-top: 3px solid #000;
     padding-top: 20px;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 4px;
 }
 
 .pdf-footer h4 {
     text-transform: uppercase;
-    font-weight: 700;
-    margin-bottom: 10px;
+    font-weight: 800;
+    margin-bottom: 15px;
+    font-size: 14px;
+    letter-spacing: 1px;
 }
 
 .pdf-recs-text {
-    font-size: 12px;
-    line-height: 1.6;
+    font-size: 14px;
+    line-height: 1.8;
     color: #333;
-    white-space: pre-line;
+    white-space: pre-wrap;
+    text-align: justify;
 }

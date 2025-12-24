@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Ficha de Treino - Gra Batista Personal Trainer</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&amp;family=Playfair+Display:ital,wght@0,400;0,700;1,400&amp;family=Roboto+Condensed:wght@300;400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "gra-gold": "#C5A96F",
+                        "gra-gold-light": "#E3C98D",
+                        "gra-gold-dark": "#9E844F",
+                        "gra-black": "#0A0A0A",
+                        "gra-dark-gray": "#161616",
+                        "gra-gray": "#2A2A2A",
+                        "gra-text-white": "#F5F5F5",
+                        "gra-text-muted": "#A0A0A0",
+                    },
+                    fontFamily: {
+                        "display": ["Playfair Display", "serif"],
+                        "body": ["Montserrat", "sans-serif"],
+                        "condensed": ["Roboto Condensed", "sans-serif"],
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "1rem",
+                        "full": "9999px"
+                    },
+                    backgroundImage: {
+                        'gold-gradient': 'linear-gradient(135deg, #C5A96F 0%, #E3C98D 50%, #9E844F 100%)',
+                        'black-gradient': 'linear-gradient(180deg, rgba(10,10,10,0) 0%, #0A0A0A 100%)',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #050505;
+        }
+        h1, h2, h3, .heading-font {
+            font-family: 'Playfair Display', serif;
+        }
+        .form-input-custom {
+            transition: all 0.3s ease;
+            border-radius: 4px; 
+        }
+        .form-input-custom:focus {
+            border-color: #C5A96F;
+            box-shadow: 0 0 0 1px #C5A96F;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0A0A0A;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #C5A96F;
+        }
+        .text-shadow-gold {
+            text-shadow: 0px 2px 4px rgba(197, 169, 111, 0.2);
+        }
+        .gold-border-gradient {
+            border-image: linear-gradient(to right, #9E844F, #E3C98D, #9E844F) 1;
+        }
+    </style>
+</head>
+<body class="bg-gra-black text-gra-text-white min-h-screen flex flex-col selection:bg-gra-gold selection:text-black">
+<header class="sticky top-0 z-50 w-full border-b border-white/10 bg-gra-black/90 backdrop-blur-md">
+<div class="mx-auto flex h-20 max-w-md items-center justify-between px-6">
+<div class="flex items-center gap-3">
+<div class="relative flex h-10 w-10 items-center justify-center rounded-full border border-gra-gold text-gra-gold">
+<span class="font-display text-2xl font-bold italic pt-1">G</span>
+</div>
+<div class="flex flex-col">
+<h1 class="text-lg font-bold leading-none text-white font-display italic tracking-wide">
+                        GRA BATISTA
+                    </h1>
+<span class="text-[10px] uppercase tracking-[0.2em] text-gra-gold font-medium">Personal Trainer</span>
+</div>
+</div>
+<button class="hidden sm:flex items-center gap-2 rounded-full border border-gra-gold/30 bg-gra-gold/5 px-5 py-2 text-xs font-bold text-gra-gold uppercase tracking-widest hover:bg-gra-gold hover:text-black hover:border-gra-gold transition-all duration-300">
+<span class="material-symbols-outlined text-[16px]">picture_as_pdf</span>
+                Exportar
+            </button>
+</div>
+</header>
+<main class="flex-1 px-4 py-8 sm:px-6 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+<div class="absolute top-[-10%] right-[-10%] w-[300px] h-[300px] bg-gra-gold/5 rounded-full blur-[80px]"></div>
+<div class="absolute bottom-[20%] left-[-10%] w-[200px] h-[200px] bg-gra-gold/5 rounded-full blur-[60px]"></div>
+</div>
+<div class="mx-auto max-w-md space-y-8 relative z-10">
+<div class="text-center space-y-2 pb-2">
+<h2 class="text-4xl text-white font-display italic font-bold text-shadow-gold">Sua Jornada</h2>
+<div class="flex items-center justify-center gap-3">
+<div class="h-[1px] w-8 bg-gradient-to-r from-transparent to-gra-gold"></div>
+<p class="text-gra-gold text-xs uppercase tracking-[0.25em] font-medium">Ficha de Treino</p>
+<div class="h-[1px] w-8 bg-gradient-to-l from-transparent to-gra-gold"></div>
+</div>
+</div>
+<div class="bg-gra-dark-gray/80 backdrop-blur-sm rounded-xl border border-white/5 p-6 shadow-xl relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-gra-gold via-gra-gold-light to-gra-gold-dark"></div>
+<div class="space-y-6">
+<div class="space-y-2">
+<label class="text-[10px] font-bold uppercase tracking-widest text-gra-gold flex items-center gap-2" for="workoutTitle">
+<span class="material-symbols-outlined text-sm">fitness_center</span>
+                            Identificação do Treino
+                        </label>
+<input class="form-input-custom w-full border-b border-white/20 border-t-0 border-x-0 bg-transparent py-2 px-0 text-xl font-display italic text-white placeholder-white/20 focus:border-gra-gold focus:outline-none focus:ring-0" id="workoutTitle" placeholder="Treino A - Inferiores" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="text-[10px] font-bold uppercase tracking-widest text-gra-gold flex items-center gap-2" for="studentName">
+<span class="material-symbols-outlined text-sm">person</span>
+                            Nome do Aluno
+                        </label>
+<input class="form-input-custom w-full border-b border-white/20 border-t-0 border-x-0 bg-transparent py-2 px-0 text-base text-white placeholder-white/20 focus:border-gra-gold focus:outline-none focus:ring-0 font-light" id="studentName" placeholder="Seu nome completo" type="text"/>
+</div>
+</div>
+</div>
+<div class="mt-10">
+<div class="flex items-end justify-between border-b border-white/10 pb-4 mb-6">
+<h3 class="text-2xl text-white font-display italic font-bold">
+                        Exercícios
+                    </h3>
+<span class="text-[10px] font-bold text-gra-black bg-gra-gold px-2 py-1 rounded-sm uppercase tracking-widest">02 Ativos</span>
+</div>
+<div class="space-y-5">
+<div class="relative bg-gra-dark-gray/50 rounded-lg border border-white/5 overflow-hidden transition-all duration-300 hover:border-gra-gold/30 hover:shadow-[0_0_20px_rgba(197,169,111,0.05)]">
+<div class="bg-gradient-to-r from-gra-gray to-gra-dark-gray px-4 py-3 flex justify-between items-center border-b border-white/5">
+<span class="text-gra-gold font-display font-bold text-sm italic tracking-wide">01</span>
+<button class="text-gra-text-muted hover:text-red-400 transition-colors" title="Remover">
+<span class="material-symbols-outlined text-lg">close</span>
+</button>
+</div>
+<div class="p-5 space-y-5">
+<div class="space-y-1">
+<label class="text-[10px] font-bold uppercase tracking-widest text-gra-text-muted">Movimento</label>
+<div class="relative">
+<select class="form-input-custom w-full appearance-none bg-gra-black border border-white/10 rounded-md text-white py-3 pl-3 pr-8 font-medium text-sm focus:border-gra-gold focus:ring-1 focus:ring-gra-gold/50 transition-colors">
+<option>Agachamento Livre com Barra</option>
+<option>Leg Press 45</option>
+<option>Stiff com Halteres</option>
+<option>Cadeira Extensora</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gra-gold text-lg">expand_more</span>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-3">
+<div class="bg-black/40 p-2 rounded border border-white/5 text-center">
+<label class="block text-[9px] font-bold uppercase text-gra-gold mb-1 tracking-wider">Séries</label>
+<input class="w-full bg-transparent text-center text-lg font-bold text-white p-0 border-none focus:ring-0 font-display" type="number" value="4"/>
+</div>
+<div class="bg-black/40 p-2 rounded border border-white/5 text-center">
+<label class="block text-[9px] font-bold uppercase text-gra-gold mb-1 tracking-wider">Reps</label>
+<input class="w-full bg-transparent text-center text-lg font-bold text-white p-0 border-none focus:ring-0 font-display" type="text" value="10-12"/>
+</div>
+<div class="bg-black/40 p-2 rounded border border-white/5 text-center">
+<label class="block text-[9px] font-bold uppercase text-gra-gold mb-1 tracking-wider">Carga</label>
+<input class="w-full bg-transparent text-center text-lg font-bold text-white p-0 border-none focus:ring-0 font-display" type="text" value="30kg"/>
+</div>
+</div>
+</div>
+</div>
+<div class="relative bg-gra-dark-gray/50 rounded-lg border border-white/5 overflow-hidden transition-all duration-300 hover:border-gra-gold/30 hover:shadow-[0_0_20px_rgba(197,169,111,0.05)]">
+<div class="bg-gradient-to-r from-gra-gray to-gra-dark-gray px-4 py-3 flex justify-between items-center border-b border-white/5">
+<span class="text-gra-gold font-display font-bold text-sm italic tracking-wide">02</span>
+<button class="text-gra-text-muted hover:text-red-400 transition-colors" title="Remover">
+<span class="material-symbols-outlined text-lg">close</span>
+</button>
+</div>
+<div class="p-5 space-y-5">
+<div class="space-y-1">
+<label class="text-[10px] font-bold uppercase tracking-widest text-gra-text-muted">Movimento</label>
+<div class="relative">
+<select class="form-input-custom w-full appearance-none bg-gra-black border border-white/10 rounded-md text-white py-3 pl-3 pr-8 font-medium text-sm focus:border-gra-gold focus:ring-1 focus:ring-gra-gold/50 transition-colors">
+<option selected="">Elevação Pélvica</option>
+<option>Agachamento Búlgaro</option>
+<option>Mesa Flexora</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gra-gold text-lg">expand_more</span>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-3">
+<div class="bg-black/40 p-2 rounded border border-white/5 text-center">
+<label class="block text-[9px] font-bold uppercase text-gra-gold mb-1 tracking-wider">Séries</label>
+<input class="w-full bg-transparent text-center text-lg font-bold text-white p-0 border-none focus:ring-0 font-display" type="number" value="3"/>
+</div>
+<div class="bg-black/40 p-2 rounded border border-white/5 text-center">
+<label class="block text-[9px] font-bold uppercase text-gra-gold mb-1 tracking-wider">Reps</label>
+<input class="w-full bg-transparent text-center text-lg font-bold text-white p-0 border-none focus:ring-0 font-display" type="text" value="12-15"/>
+</div>
+<div class="bg-black/40 p-2 rounded border border-white/5 text-center">
+<label class="block text-[9px] font-bold uppercase text-gra-gold mb-1 tracking-wider">Carga</label>
+<input class="w-full bg-transparent text-center text-lg font-bold text-white p-0 border-none focus:ring-0 font-display" type="text" value="40kg"/>
+</div>
+</div>
+</div>
+</div>
+<button class="group relative flex w-full items-center justify-center gap-2 rounded-lg border border-dashed border-white/20 bg-white/5 py-4 text-gra-text-muted transition-all hover:border-gra-gold hover:bg-gra-gold/10 hover:text-white">
+<span class="material-symbols-outlined text-gra-gold group-hover:scale-110 transition-transform">add_circle</span>
+<span class="font-bold uppercase tracking-widest text-xs">Adicionar Exercício</span>
+</button>
+</div>
+</div>
+<div class="space-y-4 pt-4">
+<h3 class="text-xl text-white font-display italic font-bold flex items-center gap-3">
+<span class="w-8 h-[1px] bg-gra-gold"></span>
+                    Observações
+                </h3>
+<div class="relative bg-gra-dark-gray/50 rounded-xl border border-white/10 p-1">
+<textarea class="form-input-custom w-full bg-transparent text-white placeholder-gra-text-muted/40 p-4 focus:outline-none resize-none border-none text-sm font-light leading-relaxed" placeholder="Anote aqui detalhes importantes para potencializar seus resultados..." rows="3"></textarea>
+<div class="absolute bottom-2 right-2 text-gra-gold/50">
+<span class="material-symbols-outlined text-sm">edit_note</span>
+</div>
+</div>
+</div>
+<div class="sticky bottom-6 z-40 mt-8">
+<button class="relative w-full overflow-hidden rounded-full bg-gradient-to-r from-gra-gold-dark via-gra-gold to-gra-gold-dark py-4 text-sm font-bold text-black uppercase tracking-widest shadow-lg shadow-gra-gold/20 transition-transform active:scale-[0.98] hover:shadow-gra-gold/40">
+<span class="relative z-10 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">download</span>
+                        Gerar PDF do Treino
+                    </span>
+<div class="absolute inset-0 bg-white/20 opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+</button>
+</div>
+<div class="mt-8 text-center space-y-3">
+<div class="flex justify-center gap-1 opacity-60">
+<span class="block w-1 h-1 rounded-full bg-gra-gold"></span>
+<span class="block w-1 h-1 rounded-full bg-gra-gold"></span>
+<span class="block w-1 h-1 rounded-full bg-gra-gold"></span>
+</div>
+<p class="text-[10px] uppercase tracking-[0.3em] text-gra-gold font-medium">Desperte o campeão em você</p>
+</div>
+</div>
+</main>
+<footer class="mt-auto border-t border-white/10 bg-black py-8 text-center">
+<div class="mx-auto max-w-md px-6 flex flex-col items-center gap-4">
+<div class="relative flex h-8 w-8 items-center justify-center rounded-full border border-gra-text-muted text-gra-text-muted opacity-50">
+<span class="font-display text-sm font-bold italic pt-0.5">G</span>
+</div>
+<p class="text-[10px] text-gra-text-muted font-light tracking-wider uppercase">
+                Gra Batista Personal Trainer © 2023
+            </p>
+</div>
+</footer>
+
+</body></html>
