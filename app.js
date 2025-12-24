@@ -195,10 +195,11 @@ document.getElementById('btn-generate-pdf').addEventListener('click', async () =
     const content = document.getElementById('pdf-content');
 
     // 2. Measure Header Height (based on visible content)
+    // Now we take whatever size is on screen (WYSIWYG)
     const totalHeight = content.scrollHeight;
-    const totalWidth = 600; // Using 600 width for better mobile PDF scaling, matched in options
+    const totalWidth = content.offsetWidth;
 
-    // 3. Configure PDF to match content EXACTLY (Single Page)
+    // 3. Configure PDF to match content EXACTLY
     const opt = {
         margin: 0,
         filename: `Ficha-${(treinoData.aluno || 'Treino').replace(/\s+/g, '_')}.pdf`,
@@ -206,22 +207,16 @@ document.getElementById('btn-generate-pdf').addEventListener('click', async () =
         html2canvas: {
             scale: 2,
             useCORS: true,
-            windowWidth: 800, // Explicitly match CSS width
+            windowWidth: totalWidth,
             height: totalHeight,
             scrollY: 0
         },
         jsPDF: {
             unit: 'px',
-            format: [600, totalHeight], // Output format width (scaled down slightly for better fit?) Or just match 800? Lets keep logic consistent.
+            format: [totalWidth, totalHeight],
             orientation: 'portrait'
         }
     };
-
-    // Note: CSS width is 800px. Logic used 600px width for PDF format previously, effectively scaling it down. 
-    // We will update logic to match 800px to be 1:1 or keep 600px if that was intentional for file size.
-    // Let's try matching 800px for 1:1 fidelity first, as scaling might cause issues.
-    opt.jsPDF.format = [800, totalHeight];
-    opt.html2canvas.windowWidth = 800;
 
     // 4. Save
     html2pdf().set(opt).from(content).save();

@@ -9,10 +9,10 @@
     background-color: #0A0A0A;
     /* Fundo Preto */
     color: #F5F5F5;
-    /* Metricas A4 */
-    width: 800px;
-    min-height: 1123px;
-    /* Altura minima A4 */
+    /* Metricas Mobile/Digital Scroll */
+    width: 100%;
+    min-height: auto;
+    /* Altura automatica */
     padding: 0;
     font-family: 'Roboto Condensed', sans-serif;
     position: relative;
@@ -25,7 +25,7 @@
 
 /* Área de Conteúdo Interna */
 .pdf-inner-content {
-    padding: 40px 60px;
+    padding: 30px 20px;
     position: relative;
     z-index: 10;
 }
