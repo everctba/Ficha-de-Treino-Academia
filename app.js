@@ -199,7 +199,11 @@ document.getElementById('btn-generate-pdf').addEventListener('click', async () =
     const totalHeight = content.scrollHeight;
     const totalWidth = content.offsetWidth;
 
-    // 3. Configure PDF to match content EXACTLY
+    // 3. Calculate position of the element to avoid blank PDF
+    const rect = content.getBoundingClientRect();
+    const absoluteTop = window.scrollY + rect.top;
+
+    // 4. Configure PDF to match content EXACTLY
     const opt = {
         margin: 0,
         filename: `Ficha-${(treinoData.aluno || 'Treino').replace(/\s+/g, '_')}.pdf`,
@@ -207,9 +211,11 @@ document.getElementById('btn-generate-pdf').addEventListener('click', async () =
         html2canvas: {
             scale: 2,
             useCORS: true,
-            windowWidth: totalWidth,
+            // Critical for "blank pdf" fix:
+            y: absoluteTop,
             height: totalHeight,
-            scrollY: 0
+            windowWidth: document.documentElement.offsetWidth,
+            width: totalWidth
         },
         jsPDF: {
             unit: 'px',
