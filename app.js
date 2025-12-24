@@ -201,7 +201,8 @@ document.getElementById('btn-generate-pdf').addEventListener('click', async () =
 
     // 3. Calculate position of the element to avoid blank PDF
     const rect = content.getBoundingClientRect();
-    const absoluteTop = window.scrollY + rect.top;
+    // Padding/Offset correction: Move capture area UP by 20px to fix cut-off header
+    const absoluteTop = (window.scrollY + rect.top) - 500;
 
     // 4. Configure PDF to match content EXACTLY
     const opt = {
