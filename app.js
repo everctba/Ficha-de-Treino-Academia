@@ -201,8 +201,6 @@ document.getElementById('btn-generate-pdf').addEventListener('click', async () =
 
     // 3. Calculate position of the element to avoid blank PDF
     const rect = content.getBoundingClientRect();
-    // Padding/Offset correction: Move capture area UP by 20px to fix cut-off header
-    const absoluteTop = (window.scrollY + rect.top) - 500;
 
     // 4. Configure PDF to match content EXACTLY
     const opt = {
@@ -212,8 +210,9 @@ document.getElementById('btn-generate-pdf').addEventListener('click', async () =
         html2canvas: {
             scale: 2,
             useCORS: true,
-            // Critical for "blank pdf" fix:
-            y: absoluteTop,
+            // Critical for "blank pdf" fix: Force scroll to top
+            scrollY: 0,
+            scrollX: 0,
             height: totalHeight,
             windowWidth: document.documentElement.offsetWidth,
             width: totalWidth
