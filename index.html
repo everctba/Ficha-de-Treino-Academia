@@ -209,38 +209,38 @@
                 </button>
             </div>
 
-        </div>
-    </main>
-
-    <!-- Hidden PDF Container (Dark Theme) -->
-    <!-- z-index -50 puts it behind body, but visible to canvas. 
-         Fixed position ensures it doesn't mess up document flow. -->
-    <div id="export-container-wrapper"
-        style="position: absolute; top: 0; left: 0; z-index: -50; width: 800px; overflow: hidden; height: 0;">
-        <div id="pdf-content">
-            <div class="pdf-inner-content">
-                <!-- Header PDF -->
-                <div class="pdf-header">
-                    <span class="pdf-header-logo-text">Personal Trainer</span>
-                    <h1 id="pdf-title">FICHA DE TREINO</h1>
-                    <h2 id="pdf-aluno">NOME DO ALUNO</h2>
-                    <h3 id="pdf-objetivo">OBJETIVO</h3>
-                </div>
-                <!-- Content -->
-                <div id="pdf-body"></div>
-                <!-- Footer -->
-                <div class="pdf-footer">
-                    <h4>RECOMENDAÇÕES:</h4>
-                    <div id="pdf-recs" class="pdf-recs-text"></div>
-                </div>
-                <div class="pdf-watermark-bottom">
-                    Whatever It Takes
+            <!-- Debug View of PDF Output -->
+            <div class="mt-8 mb-20 space-y-2">
+                <h3 class="text-white text-center text-xs uppercase tracking-widest opacity-50">Pré-visualização de
+                    Exportação (Debug)</h3>
+                <!-- Container with horizontal scroll to view full 800px width -->
+                <div id="export-container-wrapper"
+                    class="overflow-x-auto border-2 border-dashed border-red-500/50 rounded-lg">
+                    <div id="pdf-content">
+                        <div class="pdf-inner-content">
+                            <!-- Header PDF -->
+                            <div class="pdf-header">
+                                <span class="pdf-header-logo-text">Personal Trainer</span>
+                                <h1 id="pdf-title">FICHA DE TREINO</h1>
+                                <h2 id="pdf-aluno">NOME DO ALUNO</h2>
+                                <h3 id="pdf-objetivo">OBJETIVO</h3>
+                            </div>
+                            <!-- Content -->
+                            <div id="pdf-body"></div>
+                            <!-- Footer -->
+                            <div class="pdf-footer">
+                                <h4>RECOMENDAÇÕES:</h4>
+                                <div id="pdf-recs" class="pdf-recs-text"></div>
+                            </div>
+                            <div class="pdf-watermark-bottom">
+                                Whatever It Takes
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <script src="app.js"></script>
+            <script src="app.js"></script>
 </body>
 
 </html>

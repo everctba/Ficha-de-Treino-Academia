@@ -145,6 +145,9 @@ function renderEditor() {
     n.oninput = (e) => { treinoData.aluno = e.target.value; saveState(); };
     o.oninput = (e) => { treinoData.objetivo = e.target.value; saveState(); };
     r.oninput = (e) => { treinoData.recomendacoes = e.target.value; saveState(); };
+
+    // Update Live Preview
+    renderPDFTemplate();
 }
 
 window.updateTreinoHeader = (el, field) => {
@@ -186,25 +189,16 @@ window.updateExercicio = (tid, eid, field, val) => {
 
 // DIGITAL PDF GENERATION (Single Page, Custom Height)
 document.getElementById('btn-generate-pdf').addEventListener('click', async () => {
-    // 1. Render data to hidden container
+    // 1. Ensure Preview is Fresh
     renderPDFTemplate();
 
-    // 2. Prepare container visibility
-    const wrapper = document.getElementById('export-container-wrapper');
     const content = document.getElementById('pdf-content');
 
-    // Expand wrapper to fit content height exactly
-    wrapper.style.height = 'auto';
-    wrapper.style.width = '600px';
-
-    // Wait for render/layout
-    await new Promise(r => setTimeout(r, 100));
-
-    // 3. Measure Header Height
+    // 2. Measure Header Height (based on visible content)
     const totalHeight = content.scrollHeight;
-    const totalWidth = 600;
+    const totalWidth = 600; // Using 600 width for better mobile PDF scaling, matched in options
 
-    // 4. Configure PDF to match content EXACTLY (Single Page)
+    // 3. Configure PDF to match content EXACTLY (Single Page)
     const opt = {
         margin: 0,
         filename: `Ficha-${(treinoData.aluno || 'Treino').replace(/\s+/g, '_')}.pdf`,
@@ -212,21 +206,25 @@ document.getElementById('btn-generate-pdf').addEventListener('click', async () =
         html2canvas: {
             scale: 2,
             useCORS: true,
-            windowWidth: totalWidth,
+            windowWidth: 800, // Explicitly match CSS width
             height: totalHeight,
             scrollY: 0
         },
         jsPDF: {
             unit: 'px',
-            format: [totalWidth, totalHeight], // Custom Single Page Format
+            format: [600, totalHeight], // Output format width (scaled down slightly for better fit?) Or just match 800? Lets keep logic consistent.
             orientation: 'portrait'
         }
     };
 
-    // 5. Save
-    html2pdf().set(opt).from(content).save().then(() => {
-        wrapper.style.height = '0'; // Hide again
-    });
+    // Note: CSS width is 800px. Logic used 600px width for PDF format previously, effectively scaling it down. 
+    // We will update logic to match 800px to be 1:1 or keep 600px if that was intentional for file size.
+    // Let's try matching 800px for 1:1 fidelity first, as scaling might cause issues.
+    opt.jsPDF.format = [800, totalHeight];
+    opt.html2canvas.windowWidth = 800;
+
+    // 4. Save
+    html2pdf().set(opt).from(content).save();
 });
 
 function renderPDFTemplate() {
