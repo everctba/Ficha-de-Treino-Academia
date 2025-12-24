@@ -72,14 +72,14 @@ function renderEditor() {
                 <div class="flex items-end justify-between border-b border-white/10 pb-4 mb-6">
                     <div class="flex-1 mr-4">
                         <input type="text" 
-                            class="bg-transparent text-2xl text-white font-display italic font-bold w-full focus:outline-none focus:border-gra-gold border-b border-transparent placeholder-white/30"
+                            class="bg-transparent text-2xl text-white font-display italic font-bold w-full focus:outline-none focus:border-gra-gold border-b border-transparent placeholder-white/30 focus:ring-0 caret-gra-gold"
                             value="${treino.titulo}" 
                             data-tid="${treino.id}"
                             onchange="updateTreinoHeader(this, 'titulo')"
                             placeholder="Nome do Treino (Ex: TREINO A)"
                         >
                         <input type="text"
-                             class="bg-transparent text-sm text-gra-gold uppercase tracking-widest font-medium w-full mt-1 focus:outline-none"
+                             class="bg-transparent text-sm text-gra-gold uppercase tracking-widest font-medium w-full mt-1 focus:outline-none border-b border-transparent focus:border-gra-gold focus:ring-0 caret-gra-gold transition-colors"
                              value="${treino.foco}"
                              data-tid="${treino.id}"
                              onchange="updateTreinoHeader(this, 'foco')"
@@ -116,7 +116,7 @@ function renderEditor() {
                     <div class="space-y-1">
                         <label class="text-[9px] font-bold uppercase tracking-widest text-gra-text-muted">Movimento</label>
                         <input type="text"
-                            class="w-full bg-gra-black border border-white/10 rounded-md text-white py-2 px-3 focus:border-gra-gold focus:outline-none transition-colors text-sm"
+                            class="w-full bg-gra-black border border-white/10 rounded-md text-white py-2 px-3 focus:border-gra-gold focus:outline-none focus:ring-1 focus:ring-gra-gold caret-gra-gold transition-colors text-sm"
                             value="${ex.nome}"
                             placeholder="Nome do exercício..."
                             oninput="updateExercicio('${treino.id}', '${ex.id}', 'nome', this.value)"
@@ -125,15 +125,15 @@ function renderEditor() {
                     <div class="grid grid-cols-3 gap-2">
                         <div class="bg-black/40 p-2 rounded border border-white/5 text-center">
                             <label class="block text-[8px] font-bold uppercase text-gra-gold mb-1 tracking-wider">Séries</label>
-                            <input class="w-full bg-transparent text-center text-sm font-bold text-white p-0 border-none focus:ring-0" type="text" value="${ex.series}" oninput="updateExercicio('${treino.id}', '${ex.id}', 'series', this.value)">
+                            <input class="w-full bg-transparent text-center text-sm font-bold text-white p-0 border-none focus:ring-0 focus:border-b focus:border-gra-gold caret-gra-gold" type="text" value="${ex.series}" oninput="updateExercicio('${treino.id}', '${ex.id}', 'series', this.value)">
                         </div>
                         <div class="bg-black/40 p-2 rounded border border-white/5 text-center">
                             <label class="block text-[8px] font-bold uppercase text-gra-gold mb-1 tracking-wider">Reps</label>
-                            <input class="w-full bg-transparent text-center text-sm font-bold text-white p-0 border-none focus:ring-0" type="text" value="${ex.reps}" oninput="updateExercicio('${treino.id}', '${ex.id}', 'reps', this.value)">
+                            <input class="w-full bg-transparent text-center text-sm font-bold text-white p-0 border-none focus:ring-0 focus:border-b focus:border-gra-gold caret-gra-gold" type="text" value="${ex.reps}" oninput="updateExercicio('${treino.id}', '${ex.id}', 'reps', this.value)">
                         </div>
                          <div class="bg-black/40 p-2 rounded border border-white/5 text-center">
                             <label class="block text-[8px] font-bold uppercase text-gra-gold mb-1 tracking-wider">Carga</label>
-                            <input class="w-full bg-transparent text-center text-sm font-bold text-white p-0 border-none focus:ring-0" type="text" value="${ex.carga || ''}" placeholder="-" oninput="updateExercicio('${treino.id}', '${ex.id}', 'carga', this.value)">
+                            <input class="w-full bg-transparent text-center text-sm font-bold text-white p-0 border-none focus:ring-0 focus:border-b focus:border-gra-gold caret-gra-gold" type="text" value="${ex.carga || ''}" placeholder="-" oninput="updateExercicio('${treino.id}', '${ex.id}', 'carga', this.value)">
                         </div>
                     </div>
                 </div>
