@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Ficha de Treino - Graciele Personal</title>
+    
+    <!-- Fonts: Outfit (Moderno/Premium) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+
+    <!-- App Container -->
+    <div id="app">
+        
+        <!-- Header -->
+        <header class="app-header">
+            <div class="logo-area">
+                <h1>Gerador de Fichas</h1>
+                <p>Graciele Personal Trainer</p>
+            </div>
+        </header>
+
+        <!-- Editor Section (Visible) -->
+        <main id="editor-container">
+            
+            <!-- Global Info Card -->
+            <section class="card editor-card">
+                <h2><i class="fa-solid fa-user"></i> Aluno & Objetivo</h2>
+                <div class="input-group">
+                    <label>Nome do Aluno</label>
+                    <input type="text" id="aluno-nome" placeholder="Ex: Thais Zampieri">
+                </div>
+                <div class="input-group">
+                    <label>Subtítulo / Objetivo</label>
+                    <input type="text" id="treino-titulo" placeholder="Ex: Treinamento Exclusivo">
+                </div>
+            </section>
+
+            <!-- Dynamic Workouts Container -->
+            <div id="workouts-list">
+                <!-- Treinos will be rendered here by JS -->
+            </div>
+
+            <!-- Add Workout Button -->
+            <button id="btn-add-workout" class="btn btn-outline full-width">
+                <i class="fa-solid fa-plus"></i> Adicionar Treino
+            </button>
+
+            <!-- Recommendations -->
+            <section class="card editor-card">
+                <h2><i class="fa-solid fa-list-check"></i> Recomendações</h2>
+                <textarea id="recomendacoes" rows="4" placeholder="Digite as recomendações gerais aqui..."></textarea>
+            </section>
+
+            <!-- Actions -->
+            <div class="submit-area">
+                <button id="btn-generate-pdf" class="btn btn-primary btn-lg full-width">
+                    <i class="fa-solid fa-file-pdf"></i> Gerar PDF
+                </button>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Hidden Export Container (Off-screen) -->
+    <!-- This is what gets printed to PDF -->
+    <div id="export-container-wrapper" style="position: fixed; left: -9999px; top: 0;">
+        <div id="pdf-content">
+            <!-- Header PDF -->
+            <div class="pdf-header">
+                <h1 id="pdf-title">FICHA DE TREINO</h1>
+                <h2 id="pdf-aluno">NOME DO ALUNO</h2>
+                <h3 id="pdf-objetivo">OBJETIVO</h3>
+            </div>
+
+            <!-- Content PDF -->
+            <div id="pdf-body">
+                <!-- Rendered clean HTML goes here -->
+            </div>
+
+            <!-- Footer PDF -->
+             <div class="pdf-footer">
+                <h4>RECOMENDAÇÕES:</h4>
+                <div id="pdf-recs"></div>
+             </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
