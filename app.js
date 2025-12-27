@@ -213,8 +213,11 @@ document.getElementById('btn-generate-pdf').addEventListener('click', async () =
             // Critical for "blank pdf" fix: Force scroll to top
             scrollY: 0,
             scrollX: 0,
+            // Fix for iOS alignment/cutoff issues: Force capture at element origin
+            x: 0,
+            y: 0,
             height: totalHeight,
-            windowWidth: document.documentElement.offsetWidth,
+            windowWidth: totalWidth, // Match window size to element size exactly
             width: totalWidth
         },
         jsPDF: {
