@@ -39,6 +39,13 @@
     border-bottom: none;
 }
 
+.pdf-logo {
+    width: 80%;
+    height: auto;
+    margin: 0 auto 15px auto;
+    display: block;
+}
+
 .pdf-header-logo-text {
     font-family: 'Montserrat', sans-serif;
     text-transform: uppercase;

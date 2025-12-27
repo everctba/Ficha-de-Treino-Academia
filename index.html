@@ -2,6 +2,9 @@
 <html class="dark" lang="pt-BR">
 
 <head>
+    <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="shortcut icon" href="favicon.ico" />
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Ficha de Treino - Graciele Personal Trainer</title>
@@ -100,17 +103,8 @@
     <!-- Header -->
     <header class="sticky top-0 z-50 w-full border-b border-white/10 bg-gra-black/90 backdrop-blur-md">
         <div class="mx-auto flex h-20 max-w-md items-center justify-between px-6">
-            <div class="flex items-center gap-3">
-                <div
-                    class="relative flex h-10 w-10 items-center justify-center rounded-full border border-gra-gold text-gra-gold">
-                    <span class="text-2xl font-bold italic pt-1">G</span>
-                </div>
-                <div class="flex flex-col">
-                    <h1 class="text-lg font-bold leading-none text-white italic tracking-wide">GRACIELE
-                    </h1>
-                    <span class="text-[10px] uppercase tracking-[0.2em] text-gra-gold font-medium">Personal
-                        Trainer</span>
-                </div>
+            <div class="flex items-center">
+                <img src="logo-gra-horizontal.png" alt="Graciele Personal Trainer" class="h-10 w-auto object-contain">
             </div>
         </div>
     </header>
@@ -126,10 +120,10 @@
 
             <!-- Intro / Title -->
             <div class="text-center space-y-2 pb-2">
-                <h2 class="text-4xl text-white italic font-bold text-shadow-gold">Sua Jornada</h2>
+                <h2 class="text-4xl text-white italic font-bold text-shadow-gold">Ficha de Treino</h2>
                 <div class="flex items-center justify-center gap-3">
                     <div class="h-[1px] w-8 bg-gradient-to-r from-transparent to-gra-gold"></div>
-                    <p class="text-gra-gold text-xs uppercase tracking-[0.25em] font-medium">Ficha de Treino</p>
+                    <p class="text-gra-gold text-xs uppercase tracking-[0.25em] font-medium">Gerador de PDF</p>
                     <div class="h-[1px] w-8 bg-gradient-to-l from-transparent to-gra-gold"></div>
                 </div>
             </div>
@@ -214,6 +208,7 @@
                         <div class="pdf-inner-content">
                             <!-- Header PDF -->
                             <div class="pdf-header">
+                                <img src="logo-gra.png" class="pdf-logo" alt="Logo Graciele">
                                 <span class="pdf-header-logo-text">Personal Trainer</span>
                                 <h1 id="pdf-title">FICHA DE TREINO</h1>
                                 <h2 id="pdf-aluno">NOME DO ALUNO</h2>
