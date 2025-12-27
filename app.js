@@ -105,6 +105,10 @@ function renderEditor() {
         treino.exercicios.forEach((ex, i) => {
             const exDiv = document.createElement('div');
             exDiv.className = "relative bg-gra-dark-gray/50 rounded-lg border border-white/5 overflow-hidden transition-all duration-300 hover:border-gra-gold/30 hover:shadow-[0_0_20px_rgba(197,169,111,0.05)]";
+            const isPersonalizado = ex.carga && ex.carga.trim().length > 0;
+            const disabledAttr = isPersonalizado ? 'disabled' : '';
+            const opacityClass = isPersonalizado ? 'opacity-50' : '';
+
             exDiv.innerHTML = `
                 <div class="bg-gradient-to-r from-gra-gray to-gra-dark-gray px-4 py-3 flex justify-between items-center border-b border-white/5">
                     <span class="text-gra-gold font-display font-bold text-sm italic tracking-wide">${String(i + 1).padStart(2, '0')}</span>
@@ -122,18 +126,30 @@ function renderEditor() {
                             oninput="updateExercicio('${treino.id}', '${ex.id}', 'nome', this.value)"
                         >
                     </div>
-                    <div class="grid grid-cols-3 gap-2">
-                        <div class="bg-black/40 p-2 rounded border border-white/5 text-center">
+                    <div class="grid grid-cols-3 gap-2" id="inputs-container-${ex.id}">
+                        <div class="bg-black/40 p-2 rounded border border-white/5 text-center transition-opacity duration-200 ${opacityClass}">
                             <label class="block text-[8px] font-bold uppercase text-gra-gold mb-1 tracking-wider">Séries</label>
-                            <input class="w-full bg-transparent text-center text-sm font-bold text-white p-0 border-none focus:ring-0 focus:border-b focus:border-gra-gold caret-gra-gold" type="text" value="${ex.series}" oninput="updateExercicio('${treino.id}', '${ex.id}', 'series', this.value)">
+                            <input class="w-full bg-transparent text-center text-sm font-bold text-white p-0 border-none focus:ring-0 focus:border-b focus:border-gra-gold caret-gra-gold disabled:cursor-not-allowed" 
+                                   type="text" 
+                                   value="${ex.series}" 
+                                   ${disabledAttr}
+                                   oninput="updateExercicio('${treino.id}', '${ex.id}', 'series', this.value)">
                         </div>
-                        <div class="bg-black/40 p-2 rounded border border-white/5 text-center">
+                        <div class="bg-black/40 p-2 rounded border border-white/5 text-center transition-opacity duration-200 ${opacityClass}">
                             <label class="block text-[8px] font-bold uppercase text-gra-gold mb-1 tracking-wider">Reps</label>
-                            <input class="w-full bg-transparent text-center text-sm font-bold text-white p-0 border-none focus:ring-0 focus:border-b focus:border-gra-gold caret-gra-gold" type="text" value="${ex.reps}" oninput="updateExercicio('${treino.id}', '${ex.id}', 'reps', this.value)">
+                            <input class="w-full bg-transparent text-center text-sm font-bold text-white p-0 border-none focus:ring-0 focus:border-b focus:border-gra-gold caret-gra-gold disabled:cursor-not-allowed" 
+                                   type="text" 
+                                   value="${ex.reps}" 
+                                   ${disabledAttr}
+                                   oninput="updateExercicio('${treino.id}', '${ex.id}', 'reps', this.value)">
                         </div>
                          <div class="bg-black/40 p-2 rounded border border-white/5 text-center">
-                            <label class="block text-[8px] font-bold uppercase text-gra-gold mb-1 tracking-wider">Carga</label>
-                            <input class="w-full bg-transparent text-center text-sm font-bold text-white p-0 border-none focus:ring-0 focus:border-b focus:border-gra-gold caret-gra-gold" type="text" value="${ex.carga || ''}" placeholder="-" oninput="updateExercicio('${treino.id}', '${ex.id}', 'carga', this.value)">
+                            <label class="block text-[8px] font-bold uppercase text-gra-gold mb-1 tracking-wider">Personalizado</label>
+                            <input class="w-full bg-transparent text-center text-sm font-bold text-white p-0 border-none focus:ring-0 focus:border-b focus:border-gra-gold caret-gra-gold" 
+                                   type="text" 
+                                   value="${ex.carga || ''}" 
+                                   placeholder="-" 
+                                   oninput="updateExercicio('${treino.id}', '${ex.id}', 'carga', this.value)">
                         </div>
                     </div>
                 </div>
@@ -183,7 +199,35 @@ window.updateExercicio = (tid, eid, field, val) => {
     const t = treinoData.treinos.find(x => x.id === tid);
     if (t) {
         const ex = t.exercicios.find(e => e.id === eid);
-        if (ex) { ex[field] = val; saveState(); }
+        if (ex) {
+            ex[field] = val;
+            saveState();
+
+            // Dynamic UI Update for Personalizado (carga) field
+            if (field === 'carga') {
+                const container = document.getElementById(`inputs-container-${eid}`);
+                if (container) {
+                    const seriesWrapper = container.children[0];
+                    const repsWrapper = container.children[1];
+                    const seriesInput = seriesWrapper.querySelector('input');
+                    const repsInput = repsWrapper.querySelector('input');
+
+                    const shouldDisable = val && val.trim().length > 0;
+
+                    if (shouldDisable) {
+                        seriesWrapper.classList.add('opacity-50');
+                        repsWrapper.classList.add('opacity-50');
+                        seriesInput.disabled = true;
+                        repsInput.disabled = true;
+                    } else {
+                        seriesWrapper.classList.remove('opacity-50');
+                        repsWrapper.classList.remove('opacity-50');
+                        seriesInput.disabled = false;
+                        repsInput.disabled = false;
+                    }
+                }
+            }
+        }
     }
 };
 
@@ -254,7 +298,15 @@ function renderPDFTemplate() {
         let rowsHtml = '';
         t.exercicios.forEach(ex => {
             if (ex.nome) {
-                const infoCompl = `${ex.series}X${ex.reps}`;
+                let infoCompl;
+                const isPersonalizado = ex.carga && ex.carga.trim().length > 0;
+
+                if (isPersonalizado) {
+                    infoCompl = ex.carga;
+                } else {
+                    infoCompl = `${ex.series}X${ex.reps}`;
+                }
+
                 rowsHtml += `
                     <div class="pdf-exercise-item">
                         <span class="pdf-ex-name">${ex.nome}</span>
