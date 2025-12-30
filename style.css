@@ -118,7 +118,9 @@
 }
 
 .pdf-workout-header-row {
-    background: linear-gradient(90deg, #a08b52 0%, #f1d8a5 50%, #9E844F 100%);
+    background: url('grunge-topo.png'), linear-gradient(90deg, #a08b52 0%, #f1d8a5 50%, #9E844F 100%);
+    background-size: cover;
+    background-blend-mode: multiply;
     /* Gold Gradient */
     padding: 15px 10px;
     text-align: center;
