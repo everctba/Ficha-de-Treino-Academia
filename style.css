@@ -99,7 +99,7 @@
 }
 
 .pdf-workout-header-row {
-    background: linear-gradient(90deg, #9E844F 0%, #C5A96F 50%, #9E844F 100%);
+    background: linear-gradient(90deg, #a08b52 0%, #f1d8a5 50%, #9E844F 100%);
     /* Gold Gradient */
     padding: 15px 10px;
     text-align: center;
@@ -119,10 +119,10 @@
 
 .pdf-workout-focus {
     display: block;
-    font-size: 14px;
+    font-size: 16px;
     text-transform: uppercase;
     font-weight: 700;
-    opacity: 0.8;
+    opacity: 0.7;
     letter-spacing: 2px;
 }
 
@@ -166,7 +166,7 @@
 /* Footer / Recommendations */
 .pdf-footer {
     margin-top: 40px;
-    background: linear-gradient(90deg, #9E844F 0%, #C5A96F 50%, #9E844F 100%);
+    background: linear-gradient(90deg, #9E844F 0%, #ffebc0 50%, #9E844F 100%);
     padding: 20px;
     color: #000;
     border-radius: 4px;
