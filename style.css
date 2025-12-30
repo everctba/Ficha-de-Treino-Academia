@@ -58,9 +58,9 @@
 }
 
 .pdf-logo {
-    width: 80%;
+    width: 69%;
     height: auto;
-    margin: 0 auto 45px auto;
+    margin: 20px auto 45px auto;
     display: block;
 }
 
@@ -226,4 +226,19 @@
     left: 0px;
     position: absolute;
     z-index: -10;
+}
+
+.pdf-grunge-topo {
+    position: absolute;
+    top: -38px;
+    left: 0;
+    width: 100%;
+    height: auto;
+
+    z-index: 195;
+    /* Behind content, maybe on top of tape or behind it? User said "fundo". */
+    opacity: 0.8;
+    /* mix-blend-mode: normal; */
+    /* Good for grit/grunge */
+    pointer-events: none;
 }
