@@ -34,7 +34,7 @@
     background-image: url('noise.png');
     background-size: 200px 200px;
     /* Repeat texture */
-    opacity: 0.18;
+    opacity: 0.08;
     /* Low opacity for subtlety */
     mix-blend-mode: overlay;
     /* Try to blend */
@@ -86,6 +86,7 @@
     color: #C5A96F;
     margin: 0;
     letter-spacing: 8px;
+    margin-top: 44px;
 }
 
 .pdf-header h2 {
@@ -217,4 +218,12 @@
     color: #C5A96F;
     font-size: 14px;
     letter-spacing: 1px;
+}
+
+.pdf-tape-bg {
+    position: absolute;
+    top: 196px;
+    left: 0px;
+    position: absolute;
+    z-index: -10;
 }
