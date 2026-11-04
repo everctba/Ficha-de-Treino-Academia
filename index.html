@@ -2,12 +2,36 @@
 <html class="dark" lang="pt-BR">
 
 <head>
+    <meta charset="UTF-8">
     <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <link rel="shortcut icon" href="favicon.ico" />
-    <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png" />
+    <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport" />
     <title>Ficha de Treino - Graciele Personal Trainer</title>
+
+    <!-- PWA -->
+    <meta name="description"
+        content="Gerador de fichas de treino em PDF da Graciele Personal Trainer. Funciona offline e pode ser instalado no celular." />
+    <meta name="theme-color" content="#0A0A0A" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-title" content="Ficha de Treino" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+
+    <!-- Captura o evento de instalação o quanto antes (Chrome/Edge/Android) -->
+    <script>
+        window.__pwaInstallPrompt = null;
+        window.addEventListener('beforeinstallprompt', function (event) {
+            event.preventDefault();
+            window.__pwaInstallPrompt = event;
+            window.dispatchEvent(new Event('pwa-installable'));
+        });
+    </script>
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect" />
@@ -92,6 +116,67 @@
         .text-shadow-gold {
             text-shadow: 0px 2px 4px rgba(197, 169, 111, 0.2);
         }
+
+        /* PWA: aviso de nova versão */
+        .pwa-toast {
+            position: fixed;
+            left: 50%;
+            bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            width: calc(100% - 2rem);
+            max-width: 26rem;
+            padding: 0.75rem 0.75rem 0.75rem 1rem;
+            border: 1px solid rgba(197, 169, 111, 0.45);
+            border-radius: 0.75rem;
+            background: rgba(22, 22, 22, 0.98);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(197, 169, 111, 0.12);
+            color: #F5F5F5;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem;
+            transform: translate(-50%, 150%);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .pwa-toast.is-visible {
+            transform: translate(-50%, 0);
+            opacity: 1;
+        }
+
+        .pwa-toast-text {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex: 1;
+            font-weight: 500;
+        }
+
+        .pwa-toast-icon {
+            color: #C5A96F;
+            font-size: 1.25rem;
+        }
+
+        .pwa-toast-button {
+            flex-shrink: 0;
+            padding: 0.55rem 0.9rem;
+            border-radius: 9999px;
+            background: linear-gradient(135deg, #C5A96F 0%, #E3C98D 50%, #9E844F 100%);
+            color: #0A0A0A;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+        }
+
+        .pwa-toast-button:disabled {
+            opacity: 0.6;
+            cursor: wait;
+        }
     </style>
 
     <link rel="stylesheet" href="style.css"> <!-- PDF styles loaded here -->
@@ -106,10 +191,17 @@
             <div class="flex items-center">
                 <img src="logo-gra-horizontal.png" alt="Graciele Personal Trainer" class="h-10 w-auto object-contain">
             </div>
-            <button onclick="window.location.reload()"
-                class="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-gra-gold to-gra-gold-dark text-gra-black shadow-lg shadow-gra-gold/20 transition-all hover:scale-110 hover:shadow-gra-gold/40 active:scale-95">
-                <span class="material-symbols-outlined text-xl font-bold">refresh</span>
-            </button>
+            <div class="flex items-center gap-2">
+                <button id="btn-install" type="button" title="Instalar aplicativo" aria-label="Instalar aplicativo"
+                    style="display: none;"
+                    class="flex h-9 w-9 items-center justify-center rounded-full border border-gra-gold/40 bg-gra-gold/10 text-gra-gold transition-all hover:scale-110 hover:border-gra-gold hover:bg-gra-gold/20 active:scale-95">
+                    <span class="material-symbols-outlined text-xl">install_mobile</span>
+                </button>
+                <button onclick="window.location.reload()" title="Recarregar" aria-label="Recarregar"
+                    class="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-gra-gold to-gra-gold-dark text-gra-black shadow-lg shadow-gra-gold/20 transition-all hover:scale-110 hover:shadow-gra-gold/40 active:scale-95">
+                    <span class="material-symbols-outlined text-xl font-bold">refresh</span>
+                </button>
+            </div>
         </div>
     </header>
 
@@ -243,6 +335,7 @@
                 </div>
             </div>
 
+            <script src="pwa.js"></script>
             <script src="app.js"></script>
 </body>
 
